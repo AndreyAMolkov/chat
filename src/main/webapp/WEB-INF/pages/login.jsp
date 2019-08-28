@@ -34,5 +34,8 @@
         <div>
             <button type="submit" class="btn">Log in</button>
         </div>
+        <h3>
+            <th><a href="<c:url value="/register/newClient" />">Registry</a></th>
+        </h3>
     </fieldset>
  </form>

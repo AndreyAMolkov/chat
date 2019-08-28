@@ -31,7 +31,7 @@
 		</c:if>
 
 		<table>
-			<form:form action="/Bank/admin/edit" method="POST"
+			<form:form action="/Chat/register/edit" method="POST"
 				modelAttribute="client">
 				<form:hidden path="id" />
 				<form:hidden path="credential.id" />
@@ -45,15 +45,10 @@
 				<tr>
 					<td>password</td>
 					<td><input name="credential.password" value=""
-						pattern="[a-zA-Z0-9]{0,10}" required
-						title="all small or capital letters or number, no more than 10" /></td>
+						pattern="{8,20}" required
+						title="all small or capital letters or number, no less 8 and more than 20" /></td>
 				</tr>
-				<tr>
-					<td>role</td>
-					<td><input name="credential.role"
-						value="${client.getCredential().getRole()}" pattern="[A-Z]{0,9}"
-						required title="all capital letters, no more than 9" /></td>
-				</tr>
+				
 				<tr>
 				<tr>
 					<td>FirstName</td>

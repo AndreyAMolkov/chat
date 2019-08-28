@@ -14,7 +14,7 @@
 
 	<div align="center">
 
-		<h1>The client of a Bank</h1>
+		<h1>The client of a Chat</h1>
 		<h2>
 			<a>${client.getData()}</a>
 		</h2>
@@ -33,96 +33,34 @@
 		<c:if test="${error != null}">
 			<div style="color: red; font-style: italic">${error.getCause()}</div>
 		</c:if>
-
-		<form id="show" action="/Bank/client/showHistories" method="post">
-			<input name="idAccount" placeholder="number of account"
-				pattern="[0-9]{0,18}" required
-				title="number from 0 and less  9223372036854775807"> <input
-				type="hidden" name="idClient" value="${client.getId()}"> <input
-				type="submit" value="show" form="show">
-		</form>
-
-		<form id="transfer" action="/Bank/client/transfer" method="post">
-			<input type="hidden" name="idClient" value="${client.getId()}">
-			<p>
-				<input type="submit" value="transfer" form="transfer">
-			</p>
-		</form>
+        <form id="addTopic" action="/Chat/client/addTopic" method="post">
+         <input type="hidden" name="idClient" value="${client.getId()}">
+            <input name="nameOfTopic"  placeholder="name od Topic"> <input type="submit" value="addTopic" style="width: 85px;">
+        </form>
 
 		<table border="1">
 			<tr>
 
-				<th>Number of Cards</th>
-				<th style="width: 154px;">Sum</th>
-				<th style="width: 150px;">Count of histories</th>
+				<th>Topics</th>
+				<th style="width: 150px;">Count of message</th>
+				<th style="width: 150px;">last date</th>
 			</tr>
-			<c:forEach var="account" items="${client.getAccounts()}">
+			<c:forEach var="topic" items="${topics}">
 				<tr>
 
-					<td>${account.getNumber()}</td>
-					<td>${account.getSum()}</td>
-					<td><label>${account.getHistoriesSize()}</label><br></td>
-
+					<td><a href="${topic.getLink()}">${topic.getNameOfTopic()}</a></td>
+					<td><label>${topic.getHistoriesSize()}</label><br></td>
+					<td>${topic.getDate()}</td>
+        <td></form>
+                    <form id="removeTopic" action="/Chat/client/deleteTopic" method="post">
+                    <input type="hidden" name="idTopic" value="${topic.getId()}">
+                    <input type="submit" value="removeTopic" style="width: 110px;">
+        </form></td>
 				</tr>
 			</c:forEach>
 		</table>
-		<c:if test="${sendMoneyForm != null}">
-
-			<form:form action="/Bank/client/sendMoney" method="post"
-				modelAttribute="sendMoneyForm">
-				<table>
-
-					<tr>
-						<td>From Bank Account Id</td>
-						<td><input name="fromAccountId"
-							value="${sendMoneyForm.getFromAccountId()}" pattern="[0-9]{0,18}"
-							required title="number from 0 and less  999999999999999999" /></td>
-					</tr>
-					<tr>
-						<td>To Bank Account Id</td>
-						<td><input name="toAccountId"
-							value="${sendMoneyForm.getToAccountId()}" pattern="[0-9]{0,18}"
-							required title="number from 0 and less  999999999999999999" /></td>
-					</tr>
-					<tr>
-						<td>Amount</td>
-						<td><input name="amount" value="${sendMoneyForm.getAmount()}"
-							pattern="[0-9]{0,6}" required
-							title="number from 0 and less  999999" /></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td><input type="hidden" name="id" value="${client.getId()}"></td>
-						<td><input type="submit" value="Send" /></td>
-					</tr>
-				</table>
-			</form:form>
-		</c:if>
-		<c:if test="${currentAccount != null}">
-			<p>
-				Histories for:
-				<c:out value="${currentAccount.getNumber()}" />
-			<p>
-			<table border="1" style="width: 768px;">
-				<tr>
-
-					<th style="width: 154px;">date</th>
-					<th style="width: 80px;">operation</th>
-					<th style="width: 68px;">place</th>
-					<th style="width: 67px;">Sum</th>
-				</tr>
-				<c:forEach var="story" items="${currentAccount.getSortHistories()}">
-					<tr>
-
-						<td>${story.getDate()}</td>
-						<td>${story.getOperation()}</td>
-						<td>${story.getPlace()}</td>
-						<td>${story.getSum()}</td>
-
-					</tr>
-				</c:forEach>
-			</table>
-		</c:if>
+		
+		
 	</div>
 </body>
 </html>

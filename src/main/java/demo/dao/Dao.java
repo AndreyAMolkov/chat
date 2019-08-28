@@ -1,47 +1,45 @@
 package demo.dao;
 
 import java.util.List;
-
-import javax.persistence.PersistenceException;
-
-import org.springframework.transaction.CannotCreateTransactionException;
-
-import demo.model.Account;
 import demo.model.Client;
 import demo.model.Credential;
 import demo.model.Data;
+import demo.model.Message;
+import demo.model.Topic;
 
 public interface Dao {
 
-	public void merge(Client client)throws CannotCreateTransactionException;
+    public void merge(Client client);
 
-	public void remove(Long idClient)throws CannotCreateTransactionException;
+    public void removeClient(Long idClient);
 
-	public Client getClientById(Long idClient)throws PersistenceException;
+    public Client getClientById(Long idClient);
 	
-	public Account getAccountById(Long idAccount)throws PersistenceException;
+    public Topic getTopicById(Long idTopic);
 	
-	public Data getDataById(Long idData)throws PersistenceException;
+    public Data getDataById(Long idData);
 
-	public Credential findCredentialByname (String username)throws CannotCreateTransactionException;
+    public Credential findCredentialByName(String username);
 
-	public void add(Object obj)throws CannotCreateTransactionException;
+    public void add(Object obj);
 
-	public void newAccount(Long idClient)throws CannotCreateTransactionException;
+    public void newTopic(Long idClient, String nameOfTopic);
 
-	public void sendMoney(Long fromAccountId, Long toAccountId, Long amount) throws BankTransactionException;
+    public List<Client> getAllClients();
+    
+    public List<Topic> getAllTopics();
+    
+    public List<Topic> getAllTopicsNotSort();
 
-	public Long addAmount(Long id, Long amount, Long idPartner) throws BankTransactionException;
+    public void addMessageToTopic(Long idTopic, String story, Long idClient);
 
-	public List<Client> getAll();
+    public boolean removeTopic(Long id);
 
-	public void addSumAccount(Long number, Long sum, String source)throws CannotCreateTransactionException;
+    public Boolean findLoginInBd(String login);
 
-	public Boolean deleteAccount(Long id, Long number)throws CannotCreateTransactionException;
-
-	public Boolean findLoginInBd(String login)throws CannotCreateTransactionException;
-
-	public Boolean clientHaveAccount(Client client, Long numberAccount)throws CannotCreateTransactionException;
-
-	public Object nameLoginClientOwner(Long idClientOwner)throws CannotCreateTransactionException;
+    public Object nameLoginClientOwner(Long idClientOwner);
+    
+    public Message getMessageById(Long id);
+    
+    boolean removeMessage(Long idMessage, Long idClient, String role) throws ChatException;
 }

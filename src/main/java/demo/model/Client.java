@@ -1,8 +1,8 @@
 package demo.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity(name = "Client")
 @Table(name = "clients")
@@ -27,17 +25,17 @@ public class Client {
 	private Data data;
 	@Autowired
 	@javax.persistence.Transient
-	private Story story;
+    private Message message;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "credential_id")
 	private Credential credential;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "client_id")
-	private List<Account> accounts;
+	private List<Topic> topics;
 	private String nameFromData;
 
 	public Client(Credential credential, Data data) {
-		setAccounts(new ArrayList<Account>());
+        setTopics(new ArrayList<Topic>());
 		setData(data);
 		setCredential(credential);
 	}
@@ -73,7 +71,7 @@ public class Client {
 		}
 		this.data = data;
 		data.setClient(this);
-		this.nameFromData = data.getFirstName();
+        this.nameFromData = data.getFullName();
 	}
 
 	public Credential getCredential() {
@@ -91,27 +89,24 @@ public class Client {
 		credential.setClient(this);
 	}
 
-	public List<Account> getAccounts() {
-		if (accounts == null) {
-			this.accounts = new ArrayList<>();
+    public List<Topic> getTopics() {
+		if (topics == null) {
+			this.topics = new ArrayList<>();
 		}
-		return accounts;
+		return topics;
 	}
 
-	public void setAccounts(List<Account> accounts) {
-		if (accounts == null) {
-			accounts = new ArrayList<>();
+    public void setTopics(List<Topic> topics) {
+		if (topics == null) {
+            this.topics = new ArrayList<>();
 		}
-		accounts.forEach(a -> a.setData(getData().getId()));
-		this.accounts = accounts;
 	}
 
-	public void setAccounts(Account account) {
-		if (account == null) {
-			account = new Account();
+    public void setTopics(Topic topic) {
+		if (topic == null) {
+			topic = new Topic();
 		}
-		account.setData(getData().getId());
-		getAccounts().add(account);
+        getTopics().add(topic);
 	}
 
 	public String getNameFromData() {
@@ -124,16 +119,16 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", dataOfClient=" + data + ", Credential=" + credential + ", accounts=" + accounts
+        return "Client [id=" + id + ", dataOfClient=" + data + ", Credential=" + credential + ", topics=" + topics
 				+ "]";
 	}
 
-	public Story getStory() {
-		return story;
+    public Message getMessage() {
+        return message;
 	}
 
-	public void setStory(Story story) {
-		this.story = story;
+    public void setMessage(Message message) {
+        this.message = message;
 	}
 
 }
